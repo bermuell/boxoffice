@@ -64,3 +64,14 @@ func TestGenesisState_Validate(t *testing.T) {
 		})
 	}
 }
+
+// Basic test to check initial SystemInfo
+func TestDefaultGenesisState_CheckInitialNextId(t *testing.T) {
+	require.EqualValues(t,
+		&types.GenesisState{
+			StoredConcertList: []types.StoredConcert{},
+			SystemInfo:        types.SystemInfo{uint64(1)},
+		},
+		types.DefaultGenesis(),
+	)
+}
