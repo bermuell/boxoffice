@@ -27,6 +27,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgCreateConcert int = 100
 
+	opWeightMsgBuyTicket = "op_weight_msg_buy_ticket"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgBuyTicket int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -66,6 +70,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		boxofficesimulation.SimulateMsgCreateConcert(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgBuyTicket int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgBuyTicket, &weightMsgBuyTicket, nil,
+		func(_ *rand.Rand) {
+			weightMsgBuyTicket = defaultWeightMsgBuyTicket
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgBuyTicket,
+		boxofficesimulation.SimulateMsgBuyTicket(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -79,6 +94,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgCreateConcert,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				boxofficesimulation.SimulateMsgCreateConcert(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgBuyTicket,
+			defaultWeightMsgBuyTicket,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				boxofficesimulation.SimulateMsgBuyTicket(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

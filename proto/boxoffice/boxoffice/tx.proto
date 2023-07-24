@@ -7,6 +7,7 @@ option go_package = "github.com/bermuell/boxoffice/x/boxoffice/types";
 // Msg defines the Msg service.
 service Msg {
   rpc CreateConcert (MsgCreateConcert) returns (MsgCreateConcertResponse);
+  rpc BuyTicket     (MsgBuyTicket    ) returns (MsgBuyTicketResponse    );
 }
 message MsgCreateConcert {
   string creator = 1;
@@ -17,4 +18,11 @@ message MsgCreateConcert {
 message MsgCreateConcertResponse {
   string concertIndex = 1;
 }
+
+message MsgBuyTicket {
+  string creator      = 1;
+  string concertIndex = 2;
+}
+
+message MsgBuyTicketResponse {}
 

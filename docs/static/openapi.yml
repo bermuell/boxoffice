@@ -46681,6 +46681,8 @@ paths:
       tags:
         - Query
 definitions:
+  boxoffice.boxoffice.MsgBuyTicketResponse:
+    type: object
   boxoffice.boxoffice.MsgCreateConcertResponse:
     type: object
     properties:
