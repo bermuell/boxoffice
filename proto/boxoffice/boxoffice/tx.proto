@@ -1,7 +1,20 @@
 syntax = "proto3";
+
 package boxoffice.boxoffice;
 
 option go_package = "github.com/bermuell/boxoffice/x/boxoffice/types";
 
 // Msg defines the Msg service.
-service Msg {}
+service Msg {
+  rpc CreateConcert (MsgCreateConcert) returns (MsgCreateConcertResponse);
+}
+message MsgCreateConcert {
+  string creator = 1;
+  string name    = 2;
+  string volume  = 3;
+}
+
+message MsgCreateConcertResponse {
+  string concertIndex = 1;
+}
+

@@ -46681,6 +46681,11 @@ paths:
       tags:
         - Query
 definitions:
+  boxoffice.boxoffice.MsgCreateConcertResponse:
+    type: object
+    properties:
+      concertIndex:
+        type: string
   boxoffice.boxoffice.Params:
     type: object
     description: Params defines the parameters for the module.
