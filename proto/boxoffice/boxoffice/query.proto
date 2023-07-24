@@ -7,6 +7,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "boxoffice/boxoffice/params.proto";
 import "boxoffice/boxoffice/system_info.proto";
+import "boxoffice/boxoffice/stored_concert.proto";
 
 option go_package = "github.com/bermuell/boxoffice/x/boxoffice/types";
 
@@ -24,6 +25,16 @@ service Query {
     option (google.api.http).get = "/bermuell/boxoffice/boxoffice/system_info";
   
   }
+  
+  // Queries a list of StoredConcert items.
+  rpc StoredConcert    (QueryGetStoredConcertRequest) returns (QueryGetStoredConcertResponse) {
+    option (google.api.http).get = "/bermuell/boxoffice/boxoffice/stored_concert/{index}";
+  
+  }
+  rpc StoredConcertAll (QueryAllStoredConcertRequest) returns (QueryAllStoredConcertResponse) {
+    option (google.api.http).get = "/bermuell/boxoffice/boxoffice/stored_concert";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -39,5 +50,22 @@ message QueryGetSystemInfoRequest {}
 
 message QueryGetSystemInfoResponse {
   SystemInfo SystemInfo = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetStoredConcertRequest {
+  string index = 1;
+}
+
+message QueryGetStoredConcertResponse {
+  StoredConcert storedConcert = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllStoredConcertRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllStoredConcertResponse {
+  repeated StoredConcert                          storedConcert = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination    = 2;
 }
 

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package boxoffice.boxoffice;
+
+option go_package = "github.com/bermuell/boxoffice/x/boxoffice/types";
+
+message StoredConcert {
+  string index = 1; 
+  string name = 2; 
+  uint64 volume = 3; 
+  
+}
+
