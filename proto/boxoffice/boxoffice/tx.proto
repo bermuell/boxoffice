@@ -1,0 +1,7 @@
+syntax = "proto3";
+package boxoffice.boxoffice;
+
+option go_package = "github.com/bermuell/boxoffice/x/boxoffice/types";
+
+// Msg defines the Msg service.
+service Msg {}

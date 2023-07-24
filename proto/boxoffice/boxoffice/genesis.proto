@@ -1,0 +1,12 @@
+syntax = "proto3";
+package boxoffice.boxoffice;
+
+import "gogoproto/gogo.proto";
+import "boxoffice/boxoffice/params.proto";
+
+option go_package = "github.com/bermuell/boxoffice/x/boxoffice/types";
+
+// GenesisState defines the boxoffice module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
