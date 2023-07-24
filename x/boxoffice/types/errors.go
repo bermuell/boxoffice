@@ -8,6 +8,7 @@ import (
 
 // x/boxoffice module sentinel errors
 var (
-	ErrSample       = sdkerrors.Register(ModuleName, 1100, "sample error")
-	ErrInvalidOwner = sdkerrors.Register(ModuleName, 1101, "invalid owner address : %s")
+	ErrSample        = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrInvalidOwner  = sdkerrors.Register(ModuleName, 1101, "invalid owner address : %s")
+	ErrInvalidVolume = sdkerrors.Register(ModuleName, 1102, "invalid concert volume")
 )

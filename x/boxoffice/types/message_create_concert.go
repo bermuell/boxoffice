@@ -1,6 +1,8 @@
 package types
 
 import (
+	"strconv"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -43,5 +45,14 @@ func (msg *MsgCreateConcert) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+
+	volume, err := strconv.ParseUint(msg.Volume, 10, 64)
+	if err != nil {
+		return sdkerrors.Wrapf(ErrInvalidVolume, "Error parsing concert volume %s", err)
+	}
+	if volume <= 0 {
+		return sdkerrors.Wrapf(ErrInvalidVolume, "Concert volume needs to be > 0")
+	}
+	//TODO: Add further stateless checks if any
 	return nil
 }

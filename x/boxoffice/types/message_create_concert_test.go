@@ -15,15 +15,19 @@ func TestMsgCreateConcert_ValidateBasic(t *testing.T) {
 		err  error
 	}{
 		{
-			name: "invalid address",
+			name: "invalid creater address",
 			msg: MsgCreateConcert{
 				Creator: "invalid_address",
+				Name:    "My concert",
+				Volume:  "10",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
-			name: "valid address",
+			name: "valid creator address",
 			msg: MsgCreateConcert{
 				Creator: sample.AccAddress(),
+				Name:    "My concert",
+				Volume:  "10",
 			},
 		},
 	}

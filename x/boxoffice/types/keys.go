@@ -21,3 +21,9 @@ func KeyPrefix(p string) []byte {
 const (
 	SystemInfoKey = "SystemInfo/value/"
 )
+
+const (
+	ConcertCreatedEventType         = "new-concert-created" // Indicates what event type to listen to
+	ConcertCreatedEventCreator      = "creator"             // Subsidiary information
+	ConcertCreatedEventConcertIndex = "concert-index"       // What concert is relevant
+)
