@@ -1,0 +1,26 @@
+diff a/app/app.go b/app/app.go	(rejected hunks)
+@@ -158,6 +162,7 @@ var (
+ 		vesting.AppModuleBasic{},
+ 		monitoringp.AppModuleBasic{},
+ 		boxofficemodule.AppModuleBasic{},
++		nft.AppModuleBasic{},
+ 		// this line is used by starport scaffolding # stargate/app/moduleBasic
+ 	)
+ 
+@@ -224,6 +229,7 @@ type App struct {
+ 	TransferKeeper   ibctransferkeeper.Keeper
+ 	FeeGrantKeeper   feegrantkeeper.Keeper
+ 	MonitoringKeeper monitoringpkeeper.Keeper
++	NftKeeper        nftkeeper.Keeper
+ 
+ 	// make scoped keepers public for test purposes
+ 	ScopedIBCKeeper        capabilitykeeper.ScopedKeeper
+@@ -267,7 +273,7 @@ func New(
+ 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
+ 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
+ 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey, monitoringptypes.StoreKey,
+-		boxofficemoduletypes.StoreKey,
++		boxofficemoduletypes.StoreKey, nfttypes.StoreKey,
+ 		// this line is used by starport scaffolding # stargate/app/storeKey
+ 	)
+ 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)

@@ -42,6 +42,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/bank"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	"github.com/cosmos/cosmos-sdk/x/nft"
+
+	nftkeeper "github.com/cosmos/cosmos-sdk/x/nft/keeper"
+	nftmodule "github.com/cosmos/cosmos-sdk/x/nft/module"
+
 	"github.com/cosmos/cosmos-sdk/x/capability"
 	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
@@ -113,6 +118,7 @@ import (
 	boxofficemodule "github.com/bermuell/boxoffice/x/boxoffice"
 	boxofficemodulekeeper "github.com/bermuell/boxoffice/x/boxoffice/keeper"
 	boxofficemoduletypes "github.com/bermuell/boxoffice/x/boxoffice/types"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	appparams "github.com/bermuell/boxoffice/app/params"
@@ -174,6 +180,7 @@ var (
 		vesting.AppModuleBasic{},
 		consensus.AppModuleBasic{},
 		boxofficemodule.AppModuleBasic{},
+		nftmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -187,6 +194,7 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		nft.ModuleName:                 {authtypes.Minter, authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -243,6 +251,7 @@ type App struct {
 	FeeGrantKeeper        feegrantkeeper.Keeper
 	GroupKeeper           groupkeeper.Keeper
 	ConsensusParamsKeeper consensusparamkeeper.Keeper
+	NftKeeper             nftkeeper.Keeper
 
 	// make scoped keepers public for test purposes
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
@@ -296,7 +305,7 @@ func New(
 		govtypes.StoreKey, paramstypes.StoreKey, ibcexported.StoreKey, upgradetypes.StoreKey,
 		feegrant.StoreKey, evidencetypes.StoreKey, ibctransfertypes.StoreKey, icahosttypes.StoreKey,
 		capabilitytypes.StoreKey, group.StoreKey, icacontrollertypes.StoreKey, consensusparamtypes.StoreKey,
-		boxofficemoduletypes.StoreKey,
+		boxofficemoduletypes.StoreKey, nft.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -438,7 +447,10 @@ func New(
 	)
 
 	// ... other modules keepers
+	// @@@ TODO
 
+	app.NftKeeper = nftkeeper.NewKeeper(keys[nft.StoreKey],
+		appCodec, app.AccountKeeper, app.BankKeeper)
 	// Create IBC Keeper
 	app.IBCKeeper = ibckeeper.NewKeeper(
 		appCodec, keys[ibcexported.StoreKey],
@@ -525,7 +537,11 @@ func New(
 		keys[boxofficemoduletypes.MemStoreKey],
 		app.GetSubspace(boxofficemoduletypes.ModuleName),
 	)
-	boxofficeModule := boxofficemodule.NewAppModule(appCodec, app.BoxofficeKeeper, app.AccountKeeper, app.BankKeeper)
+	boxofficeModule := boxofficemodule.NewAppModule(
+		appCodec,
+		app.BoxofficeKeeper,
+		app.AccountKeeper,
+		app.BankKeeper, app.NftKeeper)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
@@ -588,6 +604,7 @@ func New(
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
 		icaModule,
+		nftmodule.NewAppModule(appCodec, app.NftKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		boxofficeModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 
@@ -621,6 +638,7 @@ func New(
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
 		consensusparamtypes.ModuleName,
+		nft.ModuleName,
 		boxofficemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
@@ -647,6 +665,7 @@ func New(
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
 		consensusparamtypes.ModuleName,
+		nft.ModuleName,
 		boxofficemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
@@ -678,6 +697,7 @@ func New(
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
 		consensusparamtypes.ModuleName,
+		nft.ModuleName,
 		boxofficemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
