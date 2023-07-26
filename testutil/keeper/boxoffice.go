@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/bermuell/boxoffice/x/boxoffice/keeper"
+	"github.com/bermuell/boxoffice/x/boxoffice/testutil"
 	"github.com/bermuell/boxoffice/x/boxoffice/types"
 	tmdb "github.com/cometbft/cometbft-db"
 	"github.com/cometbft/cometbft/libs/log"
@@ -18,6 +19,11 @@ import (
 )
 
 func BoxofficeKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
+	return BoxofficeKeeperWithMocks(t, nil)
+}
+
+func BoxofficeKeeperWithMocks(t testing.TB, nft *testutil.MockNftKeeper) (*keeper.Keeper, sdk.Context) {
+
 	storeKey := sdk.NewKVStoreKey(types.StoreKey)
 	memStoreKey := storetypes.NewMemoryStoreKey(types.MemStoreKey)
 
@@ -41,6 +47,7 @@ func BoxofficeKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		storeKey,
 		memStoreKey,
 		paramsSubspace,
+		nft,
 	)
 
 	ctx := sdk.NewContext(stateStore, tmproto.Header{}, false, log.NewNopLogger())

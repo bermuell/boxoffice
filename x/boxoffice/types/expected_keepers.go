@@ -21,4 +21,6 @@ type BankKeeper interface {
 // Interface for NFT related operations needed for ticket
 type NftKeeper interface {
 	Mint(ctx sdk.Context, token nft.NFT, receiver sdk.AccAddress) error
+	SaveClass(ctx sdk.Context, class nft.Class) error
+	GetClass(ctx sdk.Context, classID string) (nft.Class, bool)
 }

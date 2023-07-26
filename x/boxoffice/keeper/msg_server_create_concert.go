@@ -27,7 +27,7 @@ func (k msgServer) CreateConcert(goCtx context.Context, msg *types.MsgCreateConc
 	}
 
 	//TODO: add some validation for concert: storedConcert.Validate()
-
+	k.Keeper.SetNftPool(ctx, &storedConcert)
 	k.Keeper.SetStoredConcert(ctx, storedConcert)
 	systemInfo.NextId++
 	k.Keeper.SetSystemInfo(ctx, systemInfo)

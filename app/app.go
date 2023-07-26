@@ -536,6 +536,7 @@ func New(
 		keys[boxofficemoduletypes.StoreKey],
 		keys[boxofficemoduletypes.MemStoreKey],
 		app.GetSubspace(boxofficemoduletypes.ModuleName),
+		app.NftKeeper,
 	)
 	boxofficeModule := boxofficemodule.NewAppModule(
 		appCodec,
