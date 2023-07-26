@@ -1,4 +1,5 @@
 # boxoffice
+This is a demo app with the purpose of getting familiar with the Cosmos ecosystem (SDK, IBC).
 **boxoffice** is a blockchain built using Cosmos SDK and Tendermint and created with [Ignite CLI](https://ignite.com/cli).
 
 ## Get started
